@@ -10,12 +10,12 @@ const habitSchema = mongoose.Schema({
     },
     frequency: {
         type: String,
-        enum: ['daily', 'weekly', 'fortnightly', 'monthly']
+        enum: ['Daily', 'Weekly', 'Fortnightly', 'Monthly']
     },
     creator: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User',
-        required: true
+        // required: true
     }
 })
 
