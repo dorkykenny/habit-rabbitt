@@ -6,20 +6,19 @@ const jwt = require ('jsonwebtoken')
 const SALT_ROUND = 12
 
 router.post('/register', async (req, res) => {
-    const { username, password } = req.body
-
-    const userExists = await User.findOne({ username })
-    
     try {
-
+        const { username, password } = req.body
+    
+        const userExists = await User.findOne({ username })
+        
         if (userExists) {
             return res.status(400).json({
                 message: `The username ${username} is already taken.`
             })
         }
-        
+
         const newUser = await User.create({
-            username: req.body.username,
+            username,
             hashedPassword: bcrypt.hashSync(password, SALT_ROUND)
         })
         
@@ -28,8 +27,8 @@ router.post('/register', async (req, res) => {
 
     } catch (error) {
         res.status(500).json({message: 'Server error.'})
+        console.log(error)
     }
-
 })
 
 router.post('/login', async (req, res) => {
