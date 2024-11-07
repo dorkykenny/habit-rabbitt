@@ -19,7 +19,7 @@ const progressSchema = mongoose.Schema({
         type: Boolean,
         required: true
     }
-})
+}, {timestamps: true})
 
 const Progress = mongoose.model('Progress', progressSchema)
 

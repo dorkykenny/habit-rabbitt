@@ -16,8 +16,12 @@ const habitSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User',
         // required: true
-    }
-})
+    },
+    addedByUsers: [{
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'User'}]
+
+    }, {timestamps: true})
 
 const Habit = mongoose.model('Habit', habitSchema)
 

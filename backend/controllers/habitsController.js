@@ -3,6 +3,8 @@ const router = express.Router();
 
 const Habit = require('../models/Habit');
 
+// RESTful CRUD routes for Habits
+
 router.post('/', async (req, res) => {
     try {
         const createdHabit = await Habit.create({
@@ -79,6 +81,47 @@ router.delete('/:habitId', async (req, res) => {
             throw new Error('Habit not found.')
         }
         res.status(200).json(deletedHabit)
+    } catch (error) {
+        if (res.statusCode === 404) {
+            res.json({ message: error.message });
+        } else {
+            res.status(500).json({ message: error.message });
+        }
+    }
+})
+
+
+// Add to My Habits
+
+router.post('/:habitId/my-habit', async (req, res) => {
+    const { habitId } = req.params
+    const { userId } = req.user
+
+    try { 
+            await Habit.findByIdAndUpdate(
+            habitId,
+            {$push: {addedByUsers: userId}}
+        )
+        // redirect here
+    } catch (error) {
+        if (res.statusCode === 404) {
+            res.json({ message: error.message });
+        } else {
+            res.status(500).json({ message: error.message });
+        }
+    }
+})
+
+router.delete('/:habitId/my-habit', async (req, res) => {
+    const { habitId } = req.params
+    const { userId } = req.user
+
+    try { 
+            await Habit.findByIdAndUpdate(
+            habitId,
+            {$pull: {addedByUsers: userId}}
+        )
+        // redirect here
     } catch (error) {
         if (res.statusCode === 404) {
             res.json({ message: error.message });
