@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-
+const verifyToken = require('../middleware/verifyToken')
 const Habit = require('../models/Habit');
+
 
 // RESTful CRUD routes for Habits
 
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
     try {
         const createdHabit = await Habit.create({
             name: req.body.name,
@@ -49,7 +50,7 @@ router.get('/:habitId', async (req, res) => {
     }
 })
 
-router.put('/:habitId', async (req, res) => {
+router.put('/:habitId', verifyToken, async (req, res) => {
     try {
         const updatedHabit = await Habit.findByIdAndUpdate(req.params.habitId, 
             {   
@@ -73,7 +74,7 @@ router.put('/:habitId', async (req, res) => {
     }
 })
 
-router.delete('/:habitId', async (req, res) => {
+router.delete('/:habitId', verifyToken, async (req, res) => {
     try {
         const deletedHabit = await findByIdAndDelete(req.params.habitId)
         if (!deletedHabit) {
@@ -93,7 +94,7 @@ router.delete('/:habitId', async (req, res) => {
 
 // Add to My Habits
 
-router.post('/:habitId/my-habit', async (req, res) => {
+router.post('/:habitId/my-habit', verifyToken, async (req, res) => {
     const { habitId } = req.params
     const { userId } = req.user
 
@@ -112,7 +113,7 @@ router.post('/:habitId/my-habit', async (req, res) => {
     }
 })
 
-router.delete('/:habitId/my-habit', async (req, res) => {
+router.delete('/:habitId/my-habit', verifyToken, async (req, res) => {
     const { habitId } = req.params
     const { userId } = req.user
 

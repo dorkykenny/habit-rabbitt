@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const verifyToken = require('../middleware/verifyToken')
 const User = require('../models/User')
 const Habit = require('../models/Habit');
 const Progress = require('../models/Progress');
+
+router.use(verifyToken)
 
 router.post('/progress', async (req, res) => {
     const { habitId } = req.params
@@ -46,3 +49,5 @@ router.get('/progress', async (req, res) => {
         }
     }
 })
+
+module.exports = router
