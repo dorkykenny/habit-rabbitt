@@ -4,8 +4,8 @@ const cors = require('cors');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const authRouter = require('./controllers/auth')
-const habitsRouter = require('./controllers/habits')
+const authRouter = require('./controllers/authController')
+const habitsRouter = require('./controllers/habitsController')
 
 mongoose.connect(process.env.MONGODB_URI)
 
